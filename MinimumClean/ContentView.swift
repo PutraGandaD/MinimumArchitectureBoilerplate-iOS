@@ -8,14 +8,15 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var viewModel: TaskViewModel
+
+    init(repository: (any TaskRepositoryProtocol)? = nil) {
+        let repo = repository ?? TaskRepository(seedDummyData: true)
+        _viewModel = State(initialValue: TaskViewModel(repository: repo))
+    }
+
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-        }
-        .padding()
+        TaskListView(viewModel: viewModel)
     }
 }
 
